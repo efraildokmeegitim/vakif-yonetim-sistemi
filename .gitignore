@@ -8,6 +8,10 @@ backend/dist/
 backend/.env
 backend/whatsapp-auth/
 backend/.wwebjs_cache/
+*.sqlite
+*.sqlite-journal
+*.db
+
 
 # Frontend ignores
 frontend/node_modules/
