@@ -13,8 +13,8 @@ export class Wallet {
   @OneToMany(() => WalletBalance, balance => balance.wallet, { cascade: true })
   balances: WalletBalance[];
 
-  @Column({ type: 'enum', enum: ['Fiziksel', 'Emanet'], default: 'Fiziksel' })
-  groupType: 'Fiziksel' | 'Emanet';
+  @Column({ type: 'enum', enum: ['Fiziksel', 'Emanet', 'Banka'], default: 'Fiziksel' })
+  groupType: 'Fiziksel' | 'Emanet' | 'Banka';
 
   @Column({ default: 'Genel Fon' })
   fundType: string;
@@ -22,6 +22,15 @@ export class Wallet {
   @ManyToOne(() => CurrentAccount, { nullable: true })
   @JoinColumn({ name: 'linked_current_account_id' })
   linkedCurrentAccount: CurrentAccount;
+
+  @Column({ nullable: true })
+  bankName: string;
+
+  @Column({ nullable: true })
+  branchName: string;
+
+  @Column({ nullable: true })
+  iban: string;
 
   @Column({ default: true })
   isActive: boolean; // Arşivleme için

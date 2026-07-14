@@ -10,7 +10,7 @@ export class CreateWalletDto {
 
   @IsString()
   @IsOptional()
-  groupType?: 'Fiziksel' | 'Emanet';
+  groupType?: 'Fiziksel' | 'Emanet' | 'Banka';
 
   @IsString()
   @IsOptional()
@@ -19,6 +19,18 @@ export class CreateWalletDto {
   @IsNumber()
   @IsOptional()
   linkedCurrentAccountId?: number;
+
+  @IsString()
+  @IsOptional()
+  bankName?: string;
+
+  @IsString()
+  @IsOptional()
+  branchName?: string;
+
+  @IsString()
+  @IsOptional()
+  iban?: string;
 }
 
 export class UpdateWalletDto extends CreateWalletDto {}

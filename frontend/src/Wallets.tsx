@@ -21,6 +21,9 @@ interface Wallet {
   groupType: string;
   fundType: string;
   linkedCurrentAccount?: { id: number, name: string };
+  bankName?: string;
+  branchName?: string;
+  iban?: string;
   isActive: boolean;
 }
 
@@ -59,7 +62,8 @@ export default function Wallets() {
 
   // Forms
   const [walletForm, setWalletForm] = useState({ 
-    name: '', groupType: 'Fiziksel', fundType: 'Genel Fon', linkedCurrentAccountId: '' 
+    name: '', groupType: 'Fiziksel', fundType: 'Genel Fon', linkedCurrentAccountId: '',
+    bankName: '', branchName: '', iban: ''
   });
   const [transferForm, setTransferForm] = useState({ 
     fromWalletId: '', toWalletId: '', 
@@ -127,6 +131,11 @@ export default function Wallets() {
       delete payload.linkedCurrentAccountId;
     } else {
       payload.linkedCurrentAccountId = Number(payload.linkedCurrentAccountId);
+    }
+    if (payload.groupType !== 'Banka') {
+      delete payload.bankName;
+      delete payload.branchName;
+      delete payload.iban;
     }
     
     try {
@@ -265,7 +274,7 @@ export default function Wallets() {
           <button
             onClick={() => {
               setEditingWalletId(null);
-              setWalletForm({ name: '', groupType: 'Fiziksel', fundType: 'Genel Fon', linkedCurrentAccountId: '' });
+              setWalletForm({ name: '', groupType: 'Fiziksel', fundType: 'Genel Fon', linkedCurrentAccountId: '', bankName: '', branchName: '', iban: '' });
               setIsWalletModalOpen(true);
             }}
             className="inline-flex items-center justify-center px-4 py-2 bg-white text-emerald-700 border border-emerald-200 rounded-xl font-medium hover:bg-emerald-50 transition-colors shadow-sm"
@@ -317,6 +326,9 @@ export default function Wallets() {
                         {wallet.groupType === 'Emanet' && (
                           <span className="bg-amber-100 text-amber-800 text-[10px] px-1.5 py-0.5 rounded uppercase font-bold tracking-wider">Emanet</span>
                         )}
+                        {wallet.groupType === 'Banka' && (
+                          <span className="bg-blue-100 text-blue-800 text-[10px] px-1.5 py-0.5 rounded uppercase font-bold tracking-wider">Banka</span>
+                        )}
                         <div className="flex items-center gap-1 opacity-0 group-hover/wallet:opacity-100 transition-opacity ml-1">
                           <button onClick={(e) => {
                             e.stopPropagation();
@@ -325,7 +337,10 @@ export default function Wallets() {
                               name: wallet.name, 
                               groupType: wallet.groupType, 
                               fundType: wallet.fundType, 
-                              linkedCurrentAccountId: wallet.linkedCurrentAccount?.id.toString() || '' 
+                              linkedCurrentAccountId: wallet.linkedCurrentAccount?.id.toString() || '',
+                              bankName: wallet.bankName || '',
+                              branchName: wallet.branchName || '',
+                              iban: wallet.iban || ''
                             });
                             setIsWalletModalOpen(true);
                           }} className="p-1 text-blue-600 hover:bg-blue-100 rounded">
@@ -338,6 +353,12 @@ export default function Wallets() {
                       </h3>
                       {wallet.linkedCurrentAccount && (
                         <p className="text-xs text-gray-500 mt-0.5">Emanetçi: {wallet.linkedCurrentAccount.name}</p>
+                      )}
+                      {wallet.groupType === 'Banka' && (
+                        <div className="mt-1">
+                          <p className="text-[11px] text-gray-500 font-medium">Banka: <span className="text-gray-900">{wallet.bankName || '-'} {wallet.branchName ? `(${wallet.branchName})` : ''}</span></p>
+                          <p className="text-[10px] text-gray-500 font-mono mt-0.5">{wallet.iban || 'IBAN Yok'}</p>
+                        </div>
                       )}
                     </div>
                   </div>
@@ -457,6 +478,7 @@ export default function Wallets() {
                   <select className="w-full px-4 py-2.5 bg-gray-50/50 border border-gray-200 rounded-xl focus:bg-white focus:outline-none focus:ring-2 focus:ring-emerald-500/10 focus:border-emerald-600 transition-all text-sm font-medium text-gray-700" value={walletForm.groupType} onChange={e => setWalletForm({...walletForm, groupType: e.target.value})}>
                     <option value="Fiziksel">Fiziksel Kasa</option>
                     <option value="Emanet">Emanet Kasası</option>
+                    <option value="Banka">Banka Hesabı</option>
                   </select>
                 </div>
                 <div>
@@ -470,6 +492,25 @@ export default function Wallets() {
                   </select>
                 </div>
               </div>
+
+              {walletForm.groupType === 'Banka' && (
+                <div className="pt-2 space-y-4">
+                  <div className="grid grid-cols-2 gap-4">
+                    <div>
+                      <label className="block text-xs font-bold text-gray-500 mb-1.5 uppercase tracking-wider">Banka Adı</label>
+                      <input type="text" placeholder="Örn: Ziraat Bankası" className="w-full px-4 py-2.5 bg-gray-50/50 border border-gray-200 rounded-xl focus:bg-white focus:outline-none focus:ring-2 focus:ring-emerald-500/10 focus:border-emerald-600 transition-all text-sm font-medium" value={walletForm.bankName} onChange={e => setWalletForm({...walletForm, bankName: e.target.value})} />
+                    </div>
+                    <div>
+                      <label className="block text-xs font-bold text-gray-500 mb-1.5 uppercase tracking-wider">Şube Adı</label>
+                      <input type="text" placeholder="Örn: Kadıköy Şb." className="w-full px-4 py-2.5 bg-gray-50/50 border border-gray-200 rounded-xl focus:bg-white focus:outline-none focus:ring-2 focus:ring-emerald-500/10 focus:border-emerald-600 transition-all text-sm font-medium" value={walletForm.branchName} onChange={e => setWalletForm({...walletForm, branchName: e.target.value})} />
+                    </div>
+                  </div>
+                  <div>
+                    <label className="block text-xs font-bold text-gray-500 mb-1.5 uppercase tracking-wider">IBAN</label>
+                    <input type="text" placeholder="TR00 0000 0000 0000 0000 0000 00" className="w-full px-4 py-2.5 bg-gray-50/50 border border-gray-200 rounded-xl focus:bg-white focus:outline-none focus:ring-2 focus:ring-emerald-500/10 focus:border-emerald-600 transition-all text-sm font-medium font-mono" value={walletForm.iban} onChange={e => setWalletForm({...walletForm, iban: e.target.value})} />
+                  </div>
+                </div>
+              )}
 
               {walletForm.groupType === 'Emanet' && activePlugins.includes('current-accounts') && (
                 <div className="pt-2">
