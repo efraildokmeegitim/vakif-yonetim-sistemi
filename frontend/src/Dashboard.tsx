@@ -92,7 +92,7 @@ export function DashboardHome() {
                   <p className="text-xs text-gray-500 mt-1">{new Date(tx.createdAt).toLocaleDateString('tr-TR')} - Kasa İşlemi</p>
                 </div>
                 <div className={`font-semibold ${tx.type === 'in' ? 'text-green-600' : 'text-red-600'}`}>
-                  {tx.type === 'in' ? '+' : '-'}₺{Number(tx.amount).toLocaleString('tr-TR')}
+                  {tx.type === 'in' ? '+' : '-'} {Number(tx.amount).toLocaleString('tr-TR')} {tx.currency}
                 </div>
               </div>
             ))}

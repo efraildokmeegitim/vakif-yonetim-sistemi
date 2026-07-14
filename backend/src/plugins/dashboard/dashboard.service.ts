@@ -43,7 +43,7 @@ export class DashboardService {
 
     // Recent Transactions
     const recentTransactions = await this.dataSource.query(`
-      SELECT id, type as typeRaw, description, transactionDate as createdAt, amount 
+      SELECT id, type as typeRaw, description, transactionDate as createdAt, amount, currency 
       FROM transactions 
       ORDER BY transactionDate DESC 
       LIMIT 5
