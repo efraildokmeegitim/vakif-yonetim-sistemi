@@ -1,0 +1,16 @@
+{
+  "manifest_version": 3,
+  "name": "Vakıf Yönetim Sistemi",
+  "version": "1.0.0",
+  "description": "Vakıf, Kasa, Kurban ve Cari Yönetim Uygulaması",
+  "action": {},
+  "background": {
+    "service_worker": "background.js"
+  },
+  "permissions": [
+    "storage"
+  ],
+  "host_permissions": [
+    "http://localhost:3000/*"
+  ]
+}

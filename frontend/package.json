@@ -1,0 +1,47 @@
+{
+  "name": "vakif-frontend",
+  "private": true,
+  "version": "0.0.0",
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "lint": "eslint .",
+    "preview": "vite preview"
+  },
+  "dependencies": {
+    "@fullcalendar/core": "^6.1.21",
+    "@fullcalendar/daygrid": "^6.1.21",
+    "@fullcalendar/interaction": "^6.1.21",
+    "@fullcalendar/react": "^6.1.21",
+    "@fullcalendar/resource-timeline": "^6.1.21",
+    "axios": "^1.18.1",
+    "exceljs": "^4.4.0",
+    "lucide-react": "^1.23.0",
+    "react": "^19.2.6",
+    "react-dom": "^19.2.6",
+    "react-pivottable": "^0.11.1",
+    "react-router-dom": "^7.18.1",
+    "recharts": "^3.9.2",
+    "socket.io-client": "^4.8.3"
+  },
+  "devDependencies": {
+    "@eslint/js": "^10.0.1",
+    "@tailwindcss/postcss": "^4.3.2",
+    "@types/node": "^24.12.3",
+    "@types/react": "^19.2.14",
+    "@types/react-dom": "^19.2.3",
+    "@types/react-pivottable": "^0.11.6",
+    "@vitejs/plugin-react": "^6.0.1",
+    "autoprefixer": "^10.5.2",
+    "eslint": "^10.3.0",
+    "eslint-plugin-react-hooks": "^7.1.1",
+    "eslint-plugin-react-refresh": "^0.5.2",
+    "globals": "^17.6.0",
+    "postcss": "^8.5.16",
+    "tailwindcss": "^4.3.2",
+    "typescript": "~6.0.2",
+    "typescript-eslint": "^8.59.2",
+    "vite": "^8.0.12"
+  }
+}
